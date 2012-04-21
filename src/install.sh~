@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [ -b "$1"  ]; then
+    echo "Copying background to "
+fi
