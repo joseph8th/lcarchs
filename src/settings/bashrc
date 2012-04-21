@@ -1,0 +1,112 @@
+# n0tr00t's .bashrc
+
+# Variables
+
+PROMPT_WHITE="\[\033[1;37m\]"
+PROMPT_GREEN="\[\033[01;32m\]"
+PROMPT_CYAN="\[\033[01;36m\]"
+PROMPT_GRAY="\[\033[0;37m\]"
+PROMPT_BLUE="\[\033[0;34m\]"
+PROMPT_PREFIX_LONG="${PROMPT_GREEN}\u${PROMPT_CYAN}@${PROMPT_BLUE}\h "
+PROMPT_PREFIX_SHORT="${PROMPT_GREEN}\u${PROMPT_CYAN}:"
+
+PS1_XS="PS1='
+${debian_chroot:+($debian_chroot)}${PROMPT_PREFIX_SHORT}${PROMPT_CYAN}\W${PROMPT_GRAY}:\$ '"
+PS1_S="PS1='
+${debian_chroot:+($debian_chroot)}${PROMPT_PREFIX_LONG}${PROMPT_CYAN}\W${PROMPT_GRAY} \$ '"
+PS1_L="PS1='
+${debian_chroot:+($debian_chroot)}${PROMPT_PREFIX_SHORT}${PROMPT_CYAN}\w${PROMPT_GRAY} \$ '"
+PS1_XL="PS1='
+${debian_chroot:+($debian_chroot)}${PROMPT_PREFIX_LONG}${PROMPT_CYAN}\w${PROMPT_GRAY} 
+\$ '"
+
+SAGE_ROOT="/opt/sage-4.7.2"
+
+PATH=$PATH:$SAGE_ROOT
+export PATH
+
+export SAGE_MATPLOTLIB_GUI=yes
+export SAGE_BROWSER="firefox"
+
+##### Aliases
+
+alias ll="ls -alF"
+alias h="history|grep "
+alias f="find . |grep "
+alias p="ps aux |grep "
+alias o="gnome-open "
+
+#thx E. Rouat
+alias cp='cp -i'
+alias mv='mv -i'
+alias mkdir='mkdir -p'
+alias ..='cd ..'
+alias path='echo -e ${PATH//:/\\n}'
+
+# These r mine
+alias emacs="emacs -nw "
+alias semac="sudo emacs -nw "
+alias edrc="sudo emacs -nw ~/.bashrc"
+
+alias matlab="matlab -glnx86"
+
+alias agi="sudo apt-get install "
+
+alias py="python "
+alias cleanhtml="py ~/Developer/python/cleanhtml.py "
+
+alias fixconky="killall -SIGUSR1 conky"
+
+alias ps1_s=$PS1_S
+alias ps1_l=$PS1_L
+alias ps1_xs=$PS1_XS
+alias ps1_xl=$PS1_XL
+
+#ATLAS dirs
+cdSRC="cd /home/notroot/numerics/ATLAS3.9.51"
+#cdBLD="cd /home/notroot/numerics/ATLAS3.9.51/Linux_
+
+##### Functions
+
+function cdl { cd $1; ls; }
+function cpf { cp $1 $2; cdl $2; }
+function mvf { mv $1 $2; cdl $2; } 
+
+# Apache shortcuts
+function apache {
+    local fpath="/etc/apache2 "
+    local bpath="/usr/sbin/apache2ctl "
+
+    if [ $# = 0 ]; then
+        cd $fpath; ll;
+    else 
+        sudo $bpath $@
+    fi
+}
+
+# Virtualenv shortcuts. Must be in virtualenv folder.
+function ve {
+
+    local mypath="/home/notroot/python/"
+
+    case $1 in
+        -tg )
+            paster serve --reload development.ini
+            ;;
+        -dj )
+            python ./manage.py runserver
+            ;;
+        -a )
+            cd ./bin
+            source activate
+            ;;
+        -d )
+            deactivate
+            ;;
+        * )
+            echo "Usage: ve [[-tg appfolder] | [-dj appfolder] | [-d] | [-a]]" 
+    esac
+}
+
+# Main
+ps1_l

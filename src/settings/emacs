@@ -1,0 +1,93 @@
+; Dave's .emacs
+; UNM version, hacked down for student distribution
+;
+; If you want to give this stuff a try, save this file as ~/.emacs
+; or merge (whatever you want of) this stuff into your existing .emacs
+; if you already have one.
+
+; Last messed with: Thu Aug 25 07:03:16 2011 - cs241 refresh: bigger shell buffer, avoid unicode nonsense, dump lecture mode
+; Last messed with: Tue Feb 12 23:39:59 2008 - tell emacs not to use hard TABs when indenting
+; Last messed with: Thu Jan 31 14:15:29 2008 - add ctest keyboard macro
+; Last messed with: Wed Jan 30 10:24:39 2008 - light derusting for cs241'ers
+; Last messed with: Tue Aug 17 15:10:08 2004 - cs259 punch-ups, switch-to-buffer
+; Last messed with: Wed Feb  4 11:48:33 2004 - cs554 derusting, hack lecture-view
+; Last messed with: Tue Aug 20 10:40:16 2002 - include lecture-mode stuff here
+; ..Last messed with: Sun Dec 17 13:52:06 1995 - get rid of dorky menubar mode
+; ..Last messed with: Wed Mar  2 10:42:54 1994 - undoing stuff changed in v19 
+; ..Last messed with: Tue May  4 06:05:14 1993 - finally make ^T context-free
+; ..Last messed with: Tue Oct  8 07:00:12 1991
+; Key bindings and such are at the end.
+
+;;;;;; Customizing the screen
+
+; Suppresses the menu-bar (I'd rather have the extra line to work with)
+;  Comment out (place a ';' at the beginning of) the next line to keep the menu bar
+(menu-bar-mode -1)			    ; I *never* use the stupid thing..
+
+; Show the time in the mode line
+(display-time)				    ; how late am I?
+
+; Don't show the 'startup screen'
+(setq inhibit-startup-message t)	    ; ok I've seen the copyleft &c
+
+;;;;;; Command customizations
+
+;;; Helper functions for customizing a few commands 
+
+; ^T - This version always exchanges the prior two chars, so it's 
+;      context-free as any bozo could tell it should've been all along
+(defun dha-ctl-t ()
+  (interactive)
+  (transpose-chars -1)
+  (forward-char 1))
+
+; Send current line to top of screen (on C-c C-l)
+(defun dha-line-to-top () (interactive) (recenter 0))
+
+; Finally f@*#$g make switch-to-buffer insist on an
+; an existing buffer, unless given a prefix argument
+(defun dha-switch-to-buffer (buf)
+  (interactive
+   (list (read-buffer
+          (if current-prefix-arg
+              "Switch to buffer: " "Switch to existing buffer: ")
+          nil (not current-prefix-arg))))
+  (switch-to-buffer buf))
+
+; Plausible suggestions for code from the ACE folks
+(setq-default indent-tabs-mode nil)
+(setq-default nuke-trailing-whitespace-p t)
+
+;;; Global key bindings
+
+(global-unset-key "\^Xn")		    ; I mistype ^Xn too much.
+
+(global-unset-key "\^T")	   	    ; make ^T always transpose
+(global-set-key "\^T" 'dha-ctl-t)	    ;  previous two chars
+
+(global-unset-key "\^Xb")	    ; kill normal switch-to-buffer
+(global-set-key "\^Xb" 'dha-switch-to-buffer) ; use mine instead
+
+(global-set-key "\^C\^R" 'replace-string)   ; ^C^R put replace on a key already!
+(global-set-key "\^C\^Q" 'query-replace)    ; ^C^Q ditto query replace!
+(global-set-key "\^C\^L" 'dha-line-to-top)  ; ^C^L point line to top of window
+
+(global-set-key "\C-xc" 'compile)	    ; ^Xc do compilation command
+(global-set-key "\C-x*" 'shell)	            ; ^X* start or switch to *shell*
+
+;;;Set the region to a C program and then do M-x ctest
+(fset 'ctest
+   [?\M-w ?\C-x ?\C-f ?T ?e ?s ?t ?. ?c ?\C-m ?\C-x ?h ?\C-w ?\C-y ?\M-y ?\C-  ?\M-> ?\C-w ?\C-x ?\C-s ?\C-x ?c ?\C-a ?\C-k ?g ?c ?c ?  ?- ?g ?  ?- ?W ?a ?l ?l ?  ?- ?a ?n ?s ?i ?  ?- ?P ?\C-? ?p ?e ?d ?a ?n ?t ?i ?c ?  ?T ?e ?s ?t ?. ?c ?  ?- ?o ?  ?T ?e ?s ?t ?\; ?. ?/ ?T ?e ?s ?t ?\C-m ?\C-x ?b ?\C-m])
+
+;;; Keep a much bigger shell command history for M-p
+(setq comint-input-ring-size 1000)
+
+;;; Avoid unicodeisms in my shell buffers
+(defun my-shell-customizations ()
+  "Set shell encoding"
+  (set-buffer-process-coding-system 'us-ascii-unix 'us-ascii-unix)
+)
+(setq shell-mode-hook 'my-shell-customizations)
+
+;;; End of Dave's .emacs
+;;; UNM version, hacked down for CS351'ers, 251'ers, 259'ers etc etc

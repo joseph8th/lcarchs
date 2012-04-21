@@ -1,0 +1,13 @@
+# /etc/fstab: static file system information.
+#
+# Use 'blkid -o value -s UUID' to print the universally unique identifier
+# for a device; this may be used with UUID= as a more robust way to name
+# devices that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+proc            /proc           proc    nodev,noexec,nosuid 0       0
+#/dev/sda2       /media/Mac      hfsplus user,force,rw,nodev 0       0
+/dev/sda5	/media/Files	hfsplus	rw,user,force,nodev	0	0
+# / was on /dev/sda3 during installation
+UUID=7eab8094-2f77-4743-b9a0-553a7ae24305 /               ext4    errors=remount-ro 0       1
+/mnt/1024Mb.swap  none  swap  sw  0 0
