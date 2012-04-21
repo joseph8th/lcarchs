@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#Conky start-up delay script
+
+sleep 20 &&
+conky -c /home/notroot/.conkyrc &
+#sleep 20 &&
+#conky -c /home/notroot/Scripts/.conkyrc_log1 &
+sleep 20 &&
+conky -c /home/notroot/Scripts/.conkyrc_log2 &

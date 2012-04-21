@@ -1,0 +1,65 @@
+# My 2nd conky LCARS window - joseph edwards
+
+# general positioning
+alignment top_left
+gap_x 900
+gap_y 105
+minimum_size 200 5
+
+# run in the background (daemonize)
+background yes
+
+# general appearance
+border_width 1
+draw_borders no
+draw_graph_borders yes
+draw_outline no
+draw_shades no
+font 6x10
+uppercase no
+use_spacer none
+
+# sampling & updates
+update_interval 1.0
+cpu_avg_samples 2
+top_cpu_separate yes
+net_avg_samples 2
+no_buffers yes
+out_to_console no
+
+# use own window
+own_window yes
+own_window_transparent yes
+own_window_type override
+own_window_type desktop
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+
+#double buffer to reduce flicker
+double_buffer yes
+
+#use_space yes
+use_xft no
+
+# colors
+default_color cc99cc
+default_outline_color grey
+default_shade_color black
+color0 cc99cc
+color1 9999ff
+color2 yellow
+color3 99cc99
+color4 blue
+color5 violet
+color6 white
+color7 lightgrey
+color8 grey
+color9 black
+
+TEXT
+${color1}MESSAGE LOG $color
+
+${color}${execi 30 tail -n6 /var/log/messages | fold -w50}$color
+
+${color1}SYSTEM LOG $color
+
+${color3}${execi 30 tail -n3 /var/log/mintsystem.log | fold -w50}$color
