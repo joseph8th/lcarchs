@@ -30,16 +30,14 @@ if [ "$1" = "-b" ]; then
     fi
 fi
 
-# LCARS-GTK-2.0 theme installation
+# LCARS-GTK-2.0 theme installation - sudo req
 if [ "$1" = "-g" ]; then
     work_dir=${MY_USR_SHARE_DIR}${MY_GTK_THEMES_DIR}
-    if [ ! -d "$work_dir/LCARS-GTK" ]; then
+    if [ ! -d "./gtk/LCARS-GTK" ]
         echo "LCARS theme not installed... attempting installation."
         echo "Activate the theme or style under Appearance settings."
-        printf "Extracting %s to %s%s.\n" $LCARS_GTK_THEME $MY_USR_SHARE_DIR $MY_GTK_THEMES_DIR
-        sudo tar -zxvf ./gtk/${LCARS_GTK_THEME} -C $work_dir
-    else
-        echo "LCARS theme already installed."
+        printf "Extracting %s to %s%s." $LCARS_GTK_THEME $MY_USR_SHARE_DIR $MY_GTK_THEMES_DIR
+        tar -zxvf ./gtk/${LCARS_GTK_THEME} -C $work_dir
     fi
 fi
 

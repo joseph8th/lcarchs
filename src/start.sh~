@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Activates installed LCARS GX theme elements.
+
+if [ "$1" = "-b" ]; then
+    # Uncomment the following for gnome desktop install
+    # gconftool-2 -t string -s /desktop/gnome/background/picture_filename ${work_dir}/${LCARS_BACKGROUND}
+
+    # Comment out the following two lines to use gnome
+    echo -e “${work_dir}/${LCARS_BACKGROUND}”>$home_dir/.config/xfce4/desktop/backdrops.list
+    killall -SIGUSR1 xfdesktop
+    #xfdesktop --reload
