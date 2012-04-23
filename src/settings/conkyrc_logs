@@ -31,7 +31,7 @@ out_to_console no
 own_window yes
 own_window_transparent yes
 own_window_type override
-own_window_type desktop
+#own_window_type desktop
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 
 #double buffer to reduce flicker

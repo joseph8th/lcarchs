@@ -4,11 +4,14 @@
 # Configured at install, so if it's not loading right,
 # check the accompaning lcarsrc copied at install.
 
-source lcarsrc
+source /usr/share/lcars_gx/lcarsrc
+
+# Needed for xfce to force this img as root of X
+qiv --root /usr/share/backgrounds/lcars_gx/default_lcars_gx.jpg
 
 sleep 20 &&
-conky -c ${MY_HOME}/.conkyrc &
-#sleep 20 &&
-#conky -c /home/notroot/Scripts/.conkyrc_log1 &
+conky -c /home/notroot/.conkyrc &
 sleep 20 &&
-conky -c ${LCARS_HOME}/.conkyrc_logs &
+conky -c /home/notroot/.lcars_gx/.conkyrc_logs &
+
+exit 0

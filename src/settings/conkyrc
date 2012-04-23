@@ -28,7 +28,8 @@
 alignment middle_left
 gap_x 40
 gap_y 10
-minimum_size 5 5
+minimum_size 308 5
+maximum_width 308
 
 # run in the background (daemonize)
 background yes
@@ -55,7 +56,7 @@ out_to_console no
 own_window yes
 own_window_transparent yes
 own_window_type override
-own_window_type desktop
+#own_window_type desktop
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 
 #double buffer to reduce flicker

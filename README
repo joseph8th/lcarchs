@@ -1,7 +1,7 @@
- __________________________________________________________  __  
-/                                                          ||  \
-|                                             /LCARS/gx/00 ||   |
-|              ____________________________________________||__/
+ __________________________________________________________ 
+(                                                          |
+|                                           /LCARS/gx/0.3x |
+|              ____________________________________________|
 |             /
 |____________|
  ~~~~~~~~~~~~   Ver. gx/00 is simply elements exported
@@ -11,3 +11,23 @@
 |     author |  Joseph Edwards VIII <coriolisjoh@msn.com>
 |            |  Somewhere in the world.
  ~~~~~~~~~~~~
+
+USAGE:
+
+$ sudo install.sh [ bg | gtk | gnome* | conky ]
+
+  *gnomish theme installer needs work
+
+
+DEPENDS ON:
+
+[LMDE, conky, qiv]
+
+
+NOTES:
+
+* Login background is achieved by exploiting Mint's default_background.jpg symlink in the /usr/share/backgrounds/linuxmint/ folder. Conky might have a problem with any WM/DE combo you can dream up, tho'. So...
+
+* Conky installer installs configs only. You need to apt-get conky and, possibly, qiv if you have transparency problems with the desktop and conky. Here's what the conky_delay_start script does (ver. 0.03x, before starting conky:
+
+qiv --root /usr/share/lcars_gx/default_lcars_gx.jpg

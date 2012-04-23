@@ -71,9 +71,10 @@ if [ "$1" = "conky" ]; then
             echo "No ${LCARS_HOME} found. mkdir-ing new LCARS-GX config folder."
             mkdir $LCARS_HOME
         fi
-        echo "Installing ${LCARS_HOME}/.conkyrc_logs."
+        echo "Installing ${LCARS_HOME}/.conkyrc_logs. Changing permissions!"
         printf "Customize the LOGS settings in this file to suit your system.\n"
         cp ./settings/conkyrc_logs ${LCARS_HOME}/.conkyrc_logs
+        chmod 755 /var/log/messages
 
         if [ ! -d ${LCARS_SHARE} ]; then
             printf "No ${LCARS_SHARE} found. mkdir-ing new startup script folder."
@@ -85,6 +86,8 @@ if [ "$1" = "conky" ]; then
         cp ./lcarsrc.sh ${LCARS_SHARE}/lcarsrc
         chmod 755 ${LCARS_SHARE}/conky_delay_start
         chmod 755 ${LCARS_SHARE}/lcarsrc
+        echo "Activating!"
+        source ${LCARS_SHARE}/conky_delay_start
     fi
 fi
 
