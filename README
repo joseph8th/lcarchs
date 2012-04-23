@@ -1,9 +1,9 @@
  __________________________________________________________ 
-(                                                          |
-|                                           /LCARS/gx/0.3x |
-|              ____________________________________________|
-|             /
-|____________|
+(                                                          )
+(                                   /LCARS/gx/v0.3gx-alpha )
+(             _____________________________________________)
+(            (
+(____________)
  ~~~~~~~~~~~~   Ver. gx/00 is simply elements exported
 |     readme |  from my Mint 11 Gnome setup to LMDE
 |____________|  (Mint Debian) with XFCE desktop enviro.
@@ -14,20 +14,60 @@
 
 USAGE:
 
-$ sudo install.sh [ bg | gtk | gnome* | conky ]
+  $ sudo install.sh [ bg | gtk | gnome | conky ]
 
-  *gnomish theme installer needs work
+  To reinstall:
+  * bg:    rm -r /usr/share/backgrounds/lcars_gx/*
+           rmdir /usr/share/backgrounds/lcars_gx/
+  * gtk:   rm -r /usr/share/themes/LCARS-GTK/*
+           rmdir /usr/share/themes/LCARS-GTK/
+  * gnome: rm -r /usr/share/themes/LCARS-Desktop/*
+           rmdir /usr/share/themes/LCARS-Desktop/
+  * conky: rm ~/.conkyrc
 
 
-DEPENDS ON:
+DESCRIPTION:
 
-[LMDE, conky, qiv]
+Another LCARS project.
+
+LCARS-GX (Gnome-Xfce) aggregates other LCARS console projects (filtered through my setup) and includes originals to allow further customization of the project elements. The idea is to create a set of tools that can be used on the most popular Linux distributions, and which minimally make one's desktop environment (DE) and window manager (WM) look (if not act) more like an LCARS console.
+
+Not ambitious (yet) this project aggregates and integrates the open-source efforts of other coders and designers, while revising these efforts to conform the LCARS standards offered by the LCARS Standards Development Board (http://www.lcarsdeveloper.com/). That said, this project supports the rare efforts to create an LCARS terminal emulator based on Linux (similar to LCARS32 or LCARS Terminal Emulator for Windows).
+
+  
+THIS VERSION:
+
+Is just an installer script for theme elements. No uninstall or reinstall.
+
+Depends on:
+
+  BG: [Mint]
+  GTK: [gtk-2.0]
+  GNOME: [gnome-2.x, compiz]
+  XFWM4: [xfce4, xfwm4]
+  CONKY: [conky, qiv?]
+
+Includes:
+
+  * ./src/install.sh - Installs theme elements. Must be activated manually.
+  * ./src/lcarsrc.sh - Main config. Edit this to suit.
+  * ./origs/ - Any original files used by LCARS-GX for further customization.
+  * ./src/scripts/conky_delay_start - My conky startup script. Must be edited.
+  * ./src/settings/ - My session settings. Only conkyrc's installed.
+
 
 
 NOTES:
 
-* Login background is achieved by exploiting Mint's default_background.jpg symlink in the /usr/share/backgrounds/linuxmint/ folder. Conky might have a problem with any WM/DE combo you can dream up, tho'. So...
+* Xfce login background is achieved by exploiting Mint's default_background.jpg symlink in the /usr/share/backgrounds/linuxmint/ folder. Conky might have a problem with any WM/DE combo you can dream up, tho'. So...
+
+* Gnome theme depends on Compiz window decorator! I did everything using LMDE by installing Gnome/Compiz and logging in using GNOME Classic (2.0) session. Gnome 3 is someone else's problem.
 
 * Conky installer installs configs only. You need to apt-get conky and, possibly, qiv if you have transparency problems with the desktop and conky. Here's what the conky_delay_start script does (ver. 0.03x, before starting conky:
 
-qiv --root /usr/share/lcars_gx/default_lcars_gx.jpg
+  qiv --root /usr/share/lcars_gx/default_lcars_gx.jpg
+
+
+FUTURE PROJECTS:
+
+* Develop an "LCAR/ch/S" Linux distribution based on Arch Linux. This will allow a stable base and reduce the problem of developing a console emulator to the problem of developing a custom X/GTK-based DE/WM configuration (plus dependent/support apps). In that respect, the current project is good R&D for this future project, by weeding out and integrating existing efforts and standards with an eye toward eventual release of a Mint-like overhaul of an existing Linux distr. 
