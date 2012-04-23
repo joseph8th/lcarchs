@@ -43,7 +43,6 @@ if [ "$1" = "gtk" ]; then
     fi
 fi
 
-# NOT DONE! NOTHING SET IN SETTINGS FOR THIS!
 # Install LCARS-Desktop Gnome's Nautilus/Metacity window mngr theme
 if [ "$1" = "gnome" ]; then
     work_dir=${MY_USR_SHARE_DIR}${MY_GTK_THEME_DIR}
@@ -52,9 +51,9 @@ if [ "$1" = "gnome" ]; then
         echo "Activate the theme in Window decoration settings."
         printf "Extracting %s to %s%s.\n" $LCARS_GTK_THEME $MY_USR_SHARE_DIR $MY_GTK_THEMES_DIR
         tar -zxvf ./themes/${LCARS_METACITY} -C $work_dir
-        chmod 755 $work_dir/gtkrc
+        chmod 755 $work_dir/LCARS-Desktop/index.theme
     else
-        echo "LCARS-GTK theme already installed."
+        echo "LCARS-Desktop theme already installed."
     fi
 fi
 
