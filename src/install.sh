@@ -45,7 +45,7 @@ fi
 
 # Install LCARS-Desktop Gnome's Nautilus/Metacity window mngr theme
 if [ "$1" = "gnome" ]; then
-    work_dir=${MY_USR_SHARE_DIR}${MY_GTK_THEME_DIR}
+    work_dir=${MY_USR_SHARE_DIR}${MY_GTK_THEMES_DIR}
     if [ ! -d "$work_dir/LCARS-Desktop" ]; then
         echo "LCARS-Desktop windows theme not installed... attempting installation."
         echo "Activate the theme in Window decoration settings."
