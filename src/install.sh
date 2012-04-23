@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Install LCARS on typical Debian-based Linux with GTK.
+# Install LCARS on Linux Mint distros
 # Author: Joseph Edwards <github.com:joseph8th/lcars_gx.git>
 
 # Settings in 'lcarsrc' file:
@@ -16,17 +16,16 @@ source lcarsrc.sh
 
 # Install (copy) background (wallpaper) into a shared location
 if [ "$1" = "bg" ]; then
-    work_dir=${MY_USR_SHARE_DIR}${MY_BACKGROUNDS_DIR}/lcars_gx
-    if [ ! -d "$work_dir/" ]; then
+    work_dir=${MY_USR_SHARE_DIR}${MY_BACKGROUNDS_DIR}
+    if [ ! -d "$work_dir/lcars_gx" ]; then
 	echo "LCARS backgrounds not installed... attempting installation."
         echo "Activate your background under Desktop settings."
-	mkdir $work_dir
+	mkdir $work_dir/lcars_gx
     fi
-    if [ -d "$work_dir/" ]; then
-	cp ./backgrounds/${LCARS_BACKGROUND} $work_dir
-	if [ -f "${work_dir}/${LCARS_BACKGROUND}" ]; then
-	    echo "Copied background from $LCARS_BACKGROUND to $work_dir/."
-	fi
+    if [ -d "$work_dir/lcars_gx" ]; then
+	cp ./backgrounds/${LCARS_BACKGROUND} $work_dir/lcars_gx/
+	cp ./backgrounds/${LCARS_LOGIN_BG} $work_dir/lcars_gx/
+        ln -sf ${work_dir}/lcars_gx/${LCARS_LOGIN_BG} ${work_dir}${MY_DEFAULT_BG}
     fi
 fi
 
@@ -87,13 +86,6 @@ if [ "$1" = "conky" ]; then
         chmod 755 ${LCARS_SHARE}/conky_delay_start
         chmod 755 ${LCARS_SHARE}/lcarsrc
     fi
-fi
-
-if [ "$1" = "-f" ]; then
-    echo "Extracting fonts from $LCARS_FONTS to ${MY_USR_SHARE_DIR}${MY_FONTS_DIR}."
-    echo "Installing LCARS Conky settings to ${HOME}/.conkyrc."
-    echo "Installing GX Conky settings to ${LCARS_HOME}/.conkyrc_logs."
-    echo "Installing LCARS GX Conky startup script to ${LCARS_SHARE}/conky_delay_start."
 fi
 
 exit 0
