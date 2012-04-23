@@ -1,10 +1,14 @@
 #!/bin/bash
 
-#Conky start-up delay script
+# Conky start-up delay script for \LCARS\LMGX\0.02x\:
+# Configured at install, so if it's not loading right,
+# check the accompaning lcarsrc copied at install.
+
+source lcarsrc
 
 sleep 20 &&
-conky -c /home/notroot/.conkyrc &
+conky -c ${MY_HOME}/.conkyrc &
 #sleep 20 &&
 #conky -c /home/notroot/Scripts/.conkyrc_log1 &
 sleep 20 &&
-conky -c /home/notroot/Scripts/.conkyrc_log2 &
+conky -c ${LCARS_HOME}/.conkyrc_logs &
