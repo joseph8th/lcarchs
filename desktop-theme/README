@@ -1,0 +1,105 @@
+ __________________________________________________________ 
+(                                                          )
+(                                   /LCARS/gx/v0.3gx-alpha )
+(             _____________________________________________)
+(            (
+(____________)
+ ~~~~~~~~~~~~   Ver. gx/00 is simply elements exported
+|     readme |  from my Mint 11 Gnome setup to LMDE
+|____________|  (Mint Debian) with XFCE desktop enviro.
+ ~~~~~~~~~~~~
+|     author |  Joseph Edwards VIII <coriolisjoh@msn.com>
+|            |  Somewhere in the world.
+ ~~~~~~~~~~~~
+
+USAGE:
+
+  $ sudo install.sh [ bg | gtk | gnome | conky ]
+
+  To reinstall:
+  * bg:    rm -r /usr/share/backgrounds/lcars_gx/*
+           rmdir /usr/share/backgrounds/lcars_gx/
+  * gtk:   rm -r /usr/share/themes/LCARS-GTK/*
+           rmdir /usr/share/themes/LCARS-GTK/
+  * gnome: rm -r /usr/share/themes/LCARS-Desktop/*
+           rmdir /usr/share/themes/LCARS-Desktop/
+  * conky: rm ~/.conkyrc
+
+
+DESCRIPTION:
+
+Another LCARS project.
+
+LCARS-GX (Gnome-Xfce) aggregates other LCARS console projects (filtered through my setup) and includes originals to allow further customization of the project elements. The idea is to create a set of tools that can be used on the most popular Linux distributions, and which minimally make one's desktop environment (DE) and window manager (WM) look (if not act) more like an LCARS console.
+
+Not ambitious (yet) this project aggregates and integrates the open-source efforts of other coders and designers, while revising these efforts to conform the LCARS standards offered by the LCARS Standards Development Board (http://www.lcarsdeveloper.com/). That said, this project supports the rare efforts to create an LCARS terminal emulator based on Linux (similar to LCARS32 or LCARS Terminal Emulator for Windows).
+
+  
+THIS VERSION:
+
+Is just an installer script for theme elements. No uninstall or reinstall.
+
+Depends on:
+
+  BG: [Mint]
+  GTK: [gtk-2.0]
+  GNOME: [gnome-2.x, compiz]
+  XFWM4: [xfce4, xfwm4]
+  CONKY: [conky, qiv?]
+
+Includes:
+
+  * ./src/install.sh - Installs theme elements. Must be activated manually.
+  * ./src/lcarsrc.sh - Main config. Edit this to suit.
+  * ./origs/ - Any original files used by LCARS-GX for further customization.
+  * ./src/scripts/conky_delay_start - My conky startup script. Must be edited.
+  * ./src/settings/ - My session settings. Only conkyrc's installed.
+
+
+
+NOTES:
+
+* Xfce login background is achieved by exploiting Mint's default_background.jpg symlink in the /usr/share/backgrounds/linuxmint/ folder. Conky might have a problem with any WM/DE combo you can dream up, tho'. So...
+
+* Gnome theme depends on Compiz window decorator! I did everything using LMDE by installing Gnome/Compiz and logging in using GNOME Classic (2.0) session. Gnome 3 is someone else's problem.
+
+* Conky installer installs configs only. You need to apt-get conky and, possibly, qiv if you have transparency problems with the desktop and conky. Here's what the conky_delay_start script does (ver. 0.03x, before starting conky:
+
+  qiv --root /usr/share/lcars_gx/default_lcars_gx.jpg
+
+
+FUTURE PROJECT NOTES - LCARchS Arch Linux-based open-source LCARS OS:
+
+* Develop an "LCAR/ch/S" Linux distribution based on Arch Linux. This will allow a stable base and reduce the problem of developing a console emulator to the problem of developing a custom X/GTK-based DE/WM configuration (plus dependent/support apps). In that respect, the current project is good R&D for this future project, by weeding out and integrating existing efforts and standards with an eye toward eventual release of a Mint-like overhaul of an existing Linux distr. (Or maybe more like BackTrack5, with Trekkie-bling.)
+
+* I work in Python a lot, so I'm looking at the Kivy UI platform and thinking about what it would take to build a 'daemonic' DE that could be run from a LiveCD or thumb drive. I thought about GNOME 3 or Unity, but both are so bulky that trying to tweak them into shape is more of a project than starting from scratch. I envision an Arch install starting up, starting Kivy app(s), and then interfacing with the user entirely via this Kivy (or the like). Then we say goodbye to GTK/GNOME/xfwm4 configs and tweaking, and design templates and themes with CSS, jQuery, AJAX, etc. Plus, the LCARS console app itself could be easily ported to other OSes, including Android and iOS.
+
+* Thinking about what (DM,DE,WM,FM) tuples like (GDM3,xfce4,xfwm4,Thunar) do on Linux, and what it means for LCARchS project. I note that Kivy has an interface to the underlying OS for FM, so the LCARchS FM Widget will be a glorified browser view of a file system. In fact, it would be OS > Browser > Kivy, where 'Browser' replaces the (DM,DE,WM,FM) tuple... really the Kivy engine + dependencies, along with the LCARchS-core + dependencies.
+
+* Thinking about what LCARS is and does on Star Trek, and how to translate into reality leads to ideas! I'm thinking about adapting the static layouts of LCARS screens to the more dynamic reality. Using AJAX and jQuery, we can dynamically generate most of the graphics and load data on the fly. I envision viewing a large detailed schematic of Voyager and being able to grab and drag elements integraged into curvilinear L-forms that separate areas on LCARS screen. I.e., to either drag the view inside the 'L-window', or to drag the whole L-form L-layer (workspace) around inside the viewscreen, or to rearrange the L-forms inside a layer, or to rearrange the L-layers, or to move (or dup) L-forms from layer to layer... that sort of thing. In that sense, the L-forms are like window decor, the L-windows are like windows, and the L-layers are like workspaces (desktops, views, whatever), except that the workspace doesn't stop at the edge of the screen -- it stops at its edge and can be dragged around and zoomed like a Google map. 
+
+So my v0.0 of LCARchS will probably be just an LCARS-themed file-browser that lets the user view every file by dragging the L-window 'laterally' inside a static L-frame, using the screen as the L-layer. Then I can try making two L-frames and nest them in an L-layer viewed via AJAX in the screen area, and work on that behavior.
+
+Enjoy!
+
+
+CHANGE LOG:
+
+* 0.0 -  My personal Mint 11 theme tweaking LCARS-GTK and LCARS-Desktop.
+* 0.1g - Mere aggregation of installable files, folders, settings, and sources to be installed on a new LMDE installation (GNOME origs).
+* 0.1x - install.sh: Install backdrop and tweaked LCARS-GTK ('bg' and 'gtk' options).
+* 0.2x - install.sh: Hijack Mint login screen default_background.jpg symlink ('bg').
+* 0.3x - install.sh: Install conkyrc's and conky_delay_start; activate conky ('conky' option).
+* 0.3 -  install.sh: Install LCARS-Desktop ('gnome' option, so now supports both).
+
+TO DO:
+
+* 0.4 -  LCARS-LMGX: Unify, update, upgrade LCARS-GTK/-Desktop into LMDE-compliant theme package.
+* 0.5 -  LCARS-LMGX: Bring v0.4 into compliance with LCARS Standards.
+* 0.6 -  xfwm4: Export compliant v0.4 metacity-1 and gtk-2.0 files, colors, respectively to (XPM,PNG)'s targeted at xfwm4 windows.
+* 0.7 -  xfwm4: Redesign xfwm4 (XPM,PNG) file tuples so window decor optimized to LCARS standards.
+* 0.8 -  metacity-1: Redesign metacity-1 files to match v0.7 xfwm4 window decor.
+* 0.9 -  install.sh: Update and upgrade installer; test on multiple GNOME or xfce4 Linux distros.
+* Beta - LCARS-GX: Release v1.0-beta of full theme-ing package.
+
+By then, I'll have started work on LCARchS, the Arch Linux-based LCARS emulator.

@@ -1,0 +1,43 @@
+  ____________________________________________________________________________ 
+ /                                                                            )
+(                                                            /LCARS/standards |
+|             ________________________________________________________________)
+|            /
+|____________|
+.~~~~~~~~~~~~.  LCARS/standards is a collection of elements and properties
+|     readme |  for LCARS terminal emulation standardized to the LCARS
+|____________|  Standards Development Board <www.lcarsdeveloper.com>.
+.~~~~~~~~~~~~.
+|     author |  Collected by Joseph Edwards VIII <coriolisjoh@msn.com>
+|____________|  Somewhere in the world.
+.~~~~~~~~~~~~.________________________________________________________________
+ \____________________________________________________________________________)
+  ____________________________________________________________________________ 
+ /            ________________________________________________________________)
+(            /
+|     COLORS |  Color names should correspond to CSS class names for jQuery.
+|            |  System names then correspond to superclass names.
+|            |   _________
+|____________|  (|_GLOBAL_| offline: #330000/#FF0000 (blinking)
+.~~~~~~~~~~~~.   __________________      ___________     ____________
+|            |  (|_PRIMARY SYSTEMS_|   (|_SECONDARY_|   (|_ANCILLARY_|
+|            |    elbo:    #F1DF6F          #B1957A          #F1B1AF
+|            |    unavail: #3399FF          #5355DE          #A27FA5
+|            |    primary: #99CCFF          #99CCFF          #ADACD8
+|            |    color1:  #FFFF33          #FFCC00          #FFFF33
+|            |    color2:  #FFFFCC          #FFFF99          #E6B0D4
+|            |   __________________     ____________
+|            |  (|________DATABASE_|   (|_RED-ALERT_|
+|            |    elbo:    #CC6666          #FF0000
+|            |    unavail: #CCCCFF          #FF0000
+|            |    primary: #99CCFF          #FF0000
+|            |    color1:  #FF9900          #FF0000
+|            |    color2:  #FF9900          #FF0000
+|            |   __________________
+|            |  (|__MULTI-DISPLAY__|
+|            |    elbo:    #F1DF6F
+|            |    unavail: #3399FF
+|            |    primary: #99CCFF
+|            |    color1:  #FFFF33
+|            |    color2:  #FFFFCC
+`~~~~~~~~~~~~'

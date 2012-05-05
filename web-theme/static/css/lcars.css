@@ -1,0 +1,161 @@
+/*************************************************************\
+ * LCARS css selector definitions using LCARS SDB standards, *
+ * and common layout elements to be manipulated by jQuery.   *
+ * --------------------------------------------------------- *
+ * By Joseph Edwards VIII <github.com:joseph8th>             *
+\*************************************************************/
+
+/*
+ * Base tag styles *
+*/
+body {
+    background: #010101;
+    font-family: "Impact", Arial, Helvetica, sans-serif;
+}
+a {
+    color: #C03;
+    text-decoration: none;
+}
+a:hover {
+    color: #33C;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+table {
+    width: 100%;
+}
+
+/*
+ * Base layout elements *
+*/
+div#wrapper {
+    margin-top: 50px;
+    width: 720px;
+}
+div#header {
+    height: 48px;
+    background: #FFDD00;
+    color: #000;
+    line-height: 48px;
+    font-size: 32px;
+    text-align: left;
+    border-top-left-radius: 18px 24px;
+    border-top-right-radius: 18px 24px;
+    border-bottom-right-radius: 18px 24px;
+}
+div#footer {
+    font-size: 16px;
+    line-height: 32px;
+    width: 100%;
+    height: 32px;
+    float: left;
+    background: #FFDD00;
+    border-bottom-left-radius: 18px 24px;
+    border-bottom-right-radius: 18px 24px;
+}
+
+/*
+ * Elbo menu base styles *
+*/
+ul#menu {
+    width: 100%;
+}
+ul#menu li {
+    float: left;
+    padding: 0 5px;
+    background: #6688AA;
+    border-right: 3px #000000 solid;
+}
+ul#footerNav {
+    border-left: 5px solid #000000;
+}
+ul#footerNav li {
+    float: left;
+    padding: 0 5px;
+    background: #FFAA00;
+    border-right: 3px #000000 solid;
+}
+/* Menu decorators */
+div.bddL {
+    margin-left: 65px;
+    display: table-row;
+    background: #000000;
+    float: left;
+}
+
+/*
+ * Elbo content area *
+*/
+div#contentHeader {
+    height: 30px;
+    line-height: 30px;
+    background: #77AADD;
+    margin-bottom: 5px;
+    padding: 0px;
+    text-align: left;
+}
+div#content {
+    padding: 10px 10px 30px 10px;
+    background: #CCCCEE;
+    text-align: left;
+    font-family: san-serif, Arial, Helvetica;
+    font-size: 0.9em;
+}
+div#content a {
+    font-family: "Impact", sans-serif, Arial, Helvetica;
+    font-size: 1.1em;
+}
+div#contentFooter {
+    height: 40px;
+    line-height: 40px;
+    background: #FFAADD;
+    text-align: left;
+    padding: 0px 10px;
+    border-bottom-left-radius: 8px 12px;
+    border-bottom-right-radius: 8px 12px;
+}
+
+/*
+ * Base text and label class selectors *
+*/
+div.tngText {
+    padding: 0px 20px 0px 20px;
+    margin-left: 40px;
+    background: #FFAA00;
+    float: left;
+    border-left: 5px #000 solid;
+    border-right: 5px #000 solid;
+}
+div.tngTextR {
+    padding: 0px 20px 0px 20px;
+    margin-left: 65px;
+    background: #FFAA00;
+    float: left;
+    border-left: 5px #000 solid;
+    border-right: 5px #000 solid;
+}
+div.tngLabel {
+    text-align: left;
+    float: left;
+    padding-left: 10px;
+}
+
+/*
+ * Base form element styles *
+*/
+div.listform {
+    padding: 10px 10px 30px 10px;
+    clear: both;
+    background: #FFFFCC;
+}
+div.displayform {
+    padding: 10px 10px 30px 10px;
+    clear: left;
+    background: #CCFFFF
+}
+form input.button {
+    float: right;
+}

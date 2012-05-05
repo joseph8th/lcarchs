@@ -1,0 +1,17 @@
+div#wrapper {
+    width: 90%;
+    background: #CCCCEE;
+    text-align: left;
+}
+
+div#header {
+    height: 50px;
+    line-height: 50px;
+    padding: 0px 10px;
+    background: #FFFFCC;
+    font-family: "Times", "Times New Roman", serif;
+}
+
+div#content {
+    padding: 10px;
+}
