@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Conky start-up delay script for \LCARS\LMGX\0.02x\:
+# Configured at install, so if it's not loading right,
+# check the accompaning lcarsrc copied at install.
+
+source ./lcars.conf
+
+# Needed for xfce to force this img as root of X
+#qiv --root /usr/share/backgrounds/lcarchs/default_lcars_gx.jpg
+qiv --root ${MY_SHARE}${MY_BGS}${LCARS}/${LCARS_BG}
+
+sleep 20 &&
+conky -c ${MY_HOME}${LCARS_CONFD}${LCARS_CONKY}/.conkyrc &
+#conky -c /home/notroot/.conkyrc &
+#sleep 20 &&
+#conky -c /home/notroot/.lcars_gx/.conkyrc_logs &
+
+exit 0

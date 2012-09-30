@@ -1,0 +1,214 @@
+#!/bin/bash
+
+#### LCARchS Theme v0.1-alpha Driver ####
+#                                       #
+# Driver script to parse args and do.   #
+#                                       #
+# AUTHOR: Joseph Edwards VIII           #
+#         joseph8th@urcomics.com        #
+#                                       #
+#######################################3#
+
+#### Library and lcars.conf settings checks ####
+
+MK_OR_RM=
+MODIFY=
+ELEMENTS=
+declare -a MY_ELEMENTS=( )
+XENV=
+declare -a MY_XENV=( )
+ACTIVATE=
+MY_LCARS_PATH=""
+
+# Make sure script library files are sourcable
+_sourceconf() 
+{
+    if [[ -f "./lib/functions.sh" ]] && [[ -f "./lib/lcars.conf" ]]
+    then 
+        return 0
+    fi
+    
+    # Library files not found. Exit with error.
+    echo  "ERROR: library files not found."
+    return 1
+}
+
+# Make sure dir structure and files exist
+_parseconf()
+{
+IFS=:
+
+read lcars_dirs <<END
+$LCARS_PATH
+END
+
+read my_dirs <<END
+$MY_DIRS_PATH
+END
+
+read pkgs_path <<END
+$MY_PKGS_PATH
+END
+
+# Check for ./lib/... dirs and files
+for pkg in $pkgs_path
+do
+    if [ ! -f $pkg ]; then
+        printf "==> Package file %s not found\n" "$pkg"
+        exit 1
+    fi
+done
+
+# Check for $HOME/.config
+if [ ! -e "${HOME}${MY_CONFD}" ]; then
+    printf "\nConfig directory %s not found!\n" "${HOME}${MY_CONFD}"
+    _mk_dir ${HOME}${MY_CONFD}
+    [ "$?" == 1 ] && exit 1
+fi
+
+# Check for $HOME/.config/... and /usr/share/... dirs
+for dir in $lcars_dirs
+do
+    # Check for the big stuff: home and shared
+    if [ ! -e "$dir" ]
+    then
+        if [ "$dir" = "$LCARS_HOME" ]; then
+            printf "\nHome dir %s not found!\n" "$dir"
+            _mk_dir $dir
+            [ $? == 1 ] && exit 1
+        fi
+        if [ "$dir" = "$LCARS_SHARE" ]; then 
+            printf "\nShared dir %s not found!\n" "$dir"
+            _smk_dir $dir
+            [ $? == 1 ] && exit 1
+        fi
+    fi
+
+    # Dirs found so check for subdirectories
+    if [ "$dir" = "$LCARS_HOME" ]; then
+        for subdir in $my_dirs
+        do
+            if [ ! -e "${dir}${subdir}" ]; then
+                printf "==> %s%s not found\n" "$dir" "$subdir"
+                _mk_dir ${dir}${subdir}
+                [ "$?" == 1 ] && exit 1
+            fi
+#        MY_LCARS_PATH=${dir}${subdir}:$MY_LCARS_PATH
+        done
+    else
+        if [ ! -f "${LCARS_SHARE}/lcars.conf" ]; then
+            echo "Shared config file not found! Copying it now..."
+            sudo cp ./lib/lcars.conf ${LCARS_SHARE}/
+        fi
+    fi
+
+done
+}
+
+
+
+#### MAIN FUNCTION ####
+
+# Check for required library files
+if $(_sourceconf)
+then    
+    source ./lib/lcars.conf
+    source ./lib/functions.sh
+
+    while getopts hi:r:x:a OPTION
+    do
+        case $OPTION in
+            h)
+                usage
+                exit 1
+                ;;
+            i)
+                if [ ! -z $MK_OR_RM ]; then
+                    echo "Cannot install and remove at the same time."
+                    exit 1
+                fi
+                MK_OR_RM=1
+                ELEMENTS="$OPTARG"
+                ;;
+            r)
+                if [ ! -z $MK_OR_RM ]; then
+                    echo "Cannot install and remove at the same time."
+                    exit 1
+                fi
+                MK_OR_RM=2
+                ELEMENTS="$OPTARG"
+                ;;
+            x)
+                XENV="$OPTARG"
+                ;;
+            a)
+                ACTIVATE=1
+                ;;
+        esac
+    done
+
+    # Install or remove must be selected
+    if [ -z $MK_OR_RM ]; then
+        usage
+        exit 1
+    fi
+
+    # Handle multiple or all elements selection
+    for elt in $ELEMENTS 
+    do
+        # Handle 'all' argument
+        if $(contains_elt "$elt" "all"); then
+            break
+        fi
+        # Check that each elt arg is in elt list
+        if ! $(contains_elt "$elt" "${ELTLIST[@]}"); then
+            echo "ERROR: Unrecognized element (${elt})."
+            exit 1
+        fi
+        MY_ELEMENTS=("${MY_ELEMENTS[@]}" "$elt")
+    done
+    echo "ELEMENTS selected: ${MY_ELEMENTS[@]}"
+ 
+    # Handle multiple or all DEs and WMs
+    if [[ -z $XENV ]]; then
+        # Defaults
+        XENV=( "xfce" )
+    fi
+
+    for x in $XENV
+    do
+        # Handle 'all' args
+        if $(contains_elt "$x" "all"); then
+            MY_XENV=("${XLIST[@]}")
+            break
+        fi
+        # Check that each elt arg is in elt list
+        if ! $(contains_elt "$x" "${XLIST[@]}"); then
+            echo "ERROR: Unrecognized environment (${x})."
+            exit 1
+        fi
+        MY_XENV=("${MY_XENV[@]}" "$x")
+    done
+    echo "ENVIRONMENTS selected: ${MY_XENV[@]}"
+
+    # Check for required folders & files
+    _parseconf
+
+    # Install or remove selected elements
+    case $MK_OR_RM in
+        1)
+            lcars_install
+            if [ $ACTIVATE ]; then 
+                lcars_activate
+            fi
+            ;;
+        2)
+            lcars_remove
+            if [ $ACTIVATE ]; then 
+                lcars_restore 
+            fi
+            ;;
+    esac
+fi 
+
+exit 0

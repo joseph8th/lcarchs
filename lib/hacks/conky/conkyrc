@@ -1,0 +1,142 @@
+# Conky, a system monitor, based on torsmo
+#
+# Any original torsmo code is licensed under the BSD license
+#
+# All code written since the fork of torsmo is licensed under the GPL
+#
+# Please see COPYING for details
+#
+# Copyright (c) 2004, Hannu Saransaari and Lauri Hakkarainen
+# Copyright (c) 2005-2007 Brenden Matthews, Philip Kovacs, et. al. (see AUTHORS)
+# All rights reserved.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# $Id: conky.conf 990 2007-11-22 19:38:17Z pkovacs $
+
+# general positioning
+alignment middle_left
+gap_x 40
+gap_y 10
+minimum_size 308 5
+maximum_width 308
+
+# run in the background (daemonize)
+background yes
+
+# general appearance
+border_width 1
+draw_borders no
+draw_graph_borders yes
+draw_outline no
+draw_shades no
+font 6x10
+uppercase no
+use_spacer none
+
+# sampling & updates
+update_interval 1.0
+cpu_avg_samples 2
+top_cpu_separate yes
+net_avg_samples 2
+no_buffers yes
+out_to_console no
+
+# use own window
+own_window yes
+own_window_transparent yes
+own_window_type override
+#own_window_type desktop
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+
+#double buffer to reduce flicker
+double_buffer yes
+
+#use_space yes
+use_xft no
+
+# colors
+default_color cc99cc
+default_outline_color grey
+default_shade_color black
+color0 cc99cc
+color1 9999ff
+color2 yellow
+color3 green
+color4 blue
+color5 violet
+color6 white
+color7 lightgrey
+color8 grey
+color9 black
+
+TEXT
+${color1}$nodename - $sysname $kernel on $machine$color
+  ${color1}Users :$color $user_number
+  ${color1}Uptime:$color $uptime
+
+
+#$hr
+${color1}Power & Battery$color
+  ${color1}Battery    :$color ${battery_percent}% ${alignr}${battery_bar 4,190}
+  ${color1}AC Adapter :$color ${acpiacadapter}
+
+
+#$hr
+${color1}System Stats$color
+  ${color1}CPU0$color ${cpu cpu0}% ${alignr}${cpubar cpu0 4,235}
+  ${color1}${cpugraph cpu0 000000 ffffff}${color}
+  
+  ${color1}CPU1$color ${cpu cpu1}% ${alignr}${cpubar cpu1 4,235}
+  ${color1}${cpugraph cpu1 000000 ffffff}${color}
+  ${color1}Frequency  :$color $freq MHz
+  ${color1}CPU Temp   :$color ${acpitemp}C
+  ${color1}HDD Temp   :$color ${hddtemp /dev/sda}
+  ${color1}Cached     :$color $cached
+  
+  ${color1}RAM Usage  :$color $memperc% ${alignr}${membar 4,190}
+  ${color1}Swap Usage :$color $swapperc% ${alignr}${swapbar 4,190}
+
+
+#$hr
+${color1}File Systems$color
+  /dev/sda
+  ${color1}${diskiograph_read /dev/sda 25,140 000000 ffffff} ${alignr}${color1}${diskiograph_write /dev/sda 25,140 000000 ffffff}
+  ${color1}Read: ${diskio_read sda} ${alignr}Write: ${diskio_write sda}$color
+
+  ${color1}Root $color ${fs_free /}/${fs_size /} (${fs_free_perc /}%) ${alignr}${fs_bar 4,128 /}
+  ${color1}Home $color ${fs_free /home}/${fs_size /home} (${fs_free_perc /home}%) ${alignr}${fs_bar 4,128 /home}
+
+#$hr
+#${color1}Networking$color
+#  ${color1}Interface  :$color wlan0
+#  ${color1}Strength   :$color ${wireless_link_qual_perc wlan0}% ${alignr}${wireless_link_bar 4,190 wlan0}
+#  ${color1}Bit Rate   :$color ${wireless_bitrate wlan0}
+#  ${color1}IP Address :$color ${addr wlan0}
+#  ${color1}Gateway    :$color ${gw_ip}
+#
+#  ${color}Down:$color ${downspeed wlan0} kB/s ${alignr}${color}Up:$color ${upspeed wlan0} kB/s${color1} 
+#  ${downspeedgraph wlan0 25,140 000000 ffffff} ${alignr}${upspeedgraph wlan0 25,140 000000 ffffff}$color
+#  Total: ${totaldown wlan0} ${alignr}Total: ${totalup wlan0}
+
+#$hr
+${color1}Processes$color
+  ${color1}Running: $color ${running_processes}/$processes
+
+  ${color1}Name             PID    CPU%   MEM%$color
+  -----------------------------------
+  ${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
+  ${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
+  ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
+  ${top name 4} ${top pid 4} ${top cpu 4} ${top mem 4}
+
