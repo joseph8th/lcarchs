@@ -1,7 +1,7 @@
-# functions.sh: LCARS theme on Linux DE for LCARchS.
+# functions.sh: functions supporting LCARchS theming utility
 
-# VERSION: 01-g3mx-alpha: GTK, GDM, Gnome, Metacity, Xfce4
-# AUTHOR: Joseph Edwards <github.com:joseph8th/lcars_gx.git>
+# VERSION: 0.3gx (alpha): GTK, Gnome2, Xfce4, XDM
+# AUTHOR: Joseph Edwards (joseph8th@urcomics.com)
 
 # Settings in 'lcars.conf' file:
 
@@ -14,46 +14,50 @@ cat << EOF
 
 USAGE: $0 options [elements]
 
-DESCRIPTION: LCARchS is a Star Trek fan LCARS desktop theme utility for Linux.
-This version (gx02) optimized for Arch Linux with Xfce4/GTK and GDM splashpage. 
+DESCRIPTION: LCARchS is a Star Trek fan LCARS desktop theming utility for Linux.
+This version (0.3gx) optimized for Arch Linux with Xfce4/GTK and XDM login manager.
+
+This version is little more than an installer. Activation is up to the user. Expect root access password request.
+ 
+  * GTK and Gnome2/Metacity theme elements.
+  * Desktop background (1280x800) optimized for use with Conky system monitor.
+  * Conky configuration optimized for included background (Conky and qiv required).
+  * XDM login screen theme elements.
+  * Alert sound file (wav).
+
+
+(!) Options marked with (!) are in development and non-operative in this version.
 
 OPTIONS (choose one):
   -h  Show this message
   -i  Install a theme element
-  -r  Remove a theme element
+  -r  Remove a theme element (!)
 
 MODIFIERS (optional):
   -x  Choose DE/WM
-  -a  Activate after install
+  -a  Activate after install (!)
 
 ENVIRONMENT (DE/WM) flags (optional):
   xfce  Xfce4
   g2    GNOME2
-  meta  Metacity (Nautilus)
+  meta  Metacity (Compiz)
   (*)   Default: "xfce"
 
 ELEMENTS:
   all    All elements 
   dbg    Desktop background
-  gdm    GDM splash screen
+  xdm    XDM login screen (!)
   theme  GTK theme
   sound  Alert sound
   conky  Conky configs
 
-NOTES:
-  * Quote multiple elements or enviornments.
-  * Expect root access password request.
 
 EXAMPLES:
 
-* Install and attempt to activate background and gdm themes
-  for Xfce4 and GNOME2:
+* Install background and sound files (for Xfce4 and GNOME2):
 
-  $ lcarchs -i "dbg gdm" -x "xfce g2" -a
+  $ lcarchs -i "dbg sound" -x "xfce g2"
 
-* Remove and restore (activate removal) of conky config:
-
-  $ lcarchs -r conky -a
 EOF
 }
 
@@ -117,7 +121,7 @@ _updateconf() {
             ;;
         sound)
             workdir=${LCARS_HOME}${MY_SOUNDS}
-            [ ! -f "${workdir}/${LCARS_THEME}" ] && pkg=("$PKG_SOUND")
+            [ ! -f "${workdir}/${LCARS_SOUND}" ] && pkg=("$PKG_SOUND")
             ;;
         conky)
             workdir=${LCARS_HOME}${LCARS_CONFD}${LCARS_CONKY}
@@ -130,6 +134,10 @@ _updateconf() {
             fi
             ;;
     esac
+
+    if [ -z $pkg ]; then
+        echo "Everything is up-to-date!"
+    fi
 
     for p in "${pkg[@]}"
     do
@@ -145,7 +153,7 @@ lcars_remove()
 {
     for elt in "${MY_ELEMENTS[@]}"
     do
-        echo "==> Removing ${elt} for ${x}..."
+        printf "\n==> Removing %s...\n" "${elt}"
     done
 }
 
@@ -153,7 +161,7 @@ lcars_restore()
 {
     for elt in "${MY_ELEMENTS[@]}"
     do
-        echo "==> Attempting to restore ${elt}..."
+        printf "\n==> Attempting to restore %s...\n" "${elt}"
     done
 }
 
@@ -163,7 +171,7 @@ lcars_install()
 {
     for elt in "${MY_ELEMENTS[@]}"
     do
-        echo "==> Installing ${elt}..."
+        printf "\n==> Installing %s...\n" "${elt}"
         _install $elt
     done
 }
@@ -172,7 +180,8 @@ lcars_activate()
 {
     for elt in "${MY_ELEMENTS[@]}"
     do
-        echo "==> Attempting to activate ${elt}..."
+        printf "\n==> Attempting to activate %s...\n" "${elt}"
+        _activate $elt
     done
 }
 
@@ -260,11 +269,42 @@ _install()
     esac
 }
 
+
+#### ACTIVATE ELEMENT subroutine ####
+
 _activate() {
 
     case "$1" in
+        sound)
+            if $(contains_elt "xfce" "$MY_XENV"); then
+            # find xkb user config folder
+                if [ ! -d "${HOME}/.xkb" ]; then
+                    echo "Config directory ~/.xkb not found for xkbevd.cf."
+                    _mk_dir ${HOME}/.xkb
+                    [ "$?" == 1 ] && exit 1
+                fi
+            # if no xkbevd config then copy config file in, else abort
+                if [ ! -f "${HOME}/.xkb/xkbevd.cf" ]; then
+                    echo "Config file xkbevd.cf not found. Copying it to ~/.xkb now."
+                    cp ./lib${LCARS_CONFD}/xkb/xkbevd.cf ${HOME}/.xkb/
+                else
+                    echo "Existing config file xkbevd.cf found. Aborting activation."
+                    exit 1
+                fi
+            # one-time activation
+                echo "Executing command 'sudo xkbevd -bg' in the shell."
+                echo "To activate permanently add 'xkbevd -bg' to your ~/.xinitrc file."
+                sudo xkbevd -bg
+                printf "\nYou should hear an LCARS alert sound... NOW!\n \a"
+            else
+                echo "Bell activation only supported for Xfce with xkbevd."
+                exit 1
+            fi
+
+            ;;
+
         conky)
-            echo "Activating conky!"
+            echo "Attempting activation of Conky!"
             source ${LCARS_SHARE}/conky_delay_start
             ;;
     esac

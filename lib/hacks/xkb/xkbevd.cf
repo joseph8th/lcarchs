@@ -1,0 +1,5 @@
+soundDirectory	= ""
+soundCmd	= "aplay -q"
+
+Bell()		"~/.config/lcarchs/sounds/defaultsound.wav"
+Bell(ImAlive)	"/usr/share/sounds/lcarchs/defaultsound.wav"
