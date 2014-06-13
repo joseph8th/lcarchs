@@ -15,7 +15,7 @@ cat << EOF
 USAGE: $0 options [elements]
 
 DESCRIPTION: LCARchS is a Star Trek fan LCARS desktop theming utility for Linux.
-This version (0.3gx) optimized for Arch Linux with Xfce4/GTK and XDM login manager.
+This version (0.4) optimized for Arch Linux with Xfce4/GTK and XDM login manager.
 
 This version is little more than an installer. Activation is up to the user. Expect root access password request.
  
@@ -24,6 +24,7 @@ This version is little more than an installer. Activation is up to the user. Exp
   * Conky configuration optimized for included background (Conky and qiv required).
   * XDM login screen theme elements.
   * Alert sound file (wav).
+  * Multipurpose icon.
 
 
 (!) Options marked with (!) are in development and non-operative in this version.
@@ -50,6 +51,7 @@ ELEMENTS:
   theme  GTK theme
   sound  Alert sound
   conky  Conky configs
+  icon   Multipurpose icon
 
 
 EXAMPLES:
@@ -90,7 +92,7 @@ contains_elt() {
 
 #### GLOBAL VARIABLES ####
 
-ELTLIST=( dbg gdm theme sound conky )
+ELTLIST=( dbg gdm theme sound conky icon )
 XLIST=( xfce g2 meta )
 
 
@@ -120,11 +122,15 @@ _updateconf() {
             fi
             ;;
         sound)
-            workdir=${LCARS_HOME}${MY_SOUNDS}
+            workdir=${workdir}${MY_SOUNDS}
             [ ! -f "${workdir}/${LCARS_SOUND}" ] && pkg=("$PKG_SOUND")
             ;;
+        icon)
+            workdir=${workdir}${MY_ICONS}
+            [ ! -f "${workdir}/${LCARS_ICON}" ] && pkg=("$PKG_ICON")
+            ;;
         conky)
-            workdir=${LCARS_HOME}${LCARS_CONFD}${LCARS_CONKY}
+            workdir=${workdir}${LCARS_CONFD}${LCARS_CONKY}
             if [ ! -d "$workdir" ]; then
                 _mk_dir "$workdir"
                 [ "$?" == 1 ] && exit 1
@@ -207,8 +213,6 @@ _install()
             printf "==> Copying:\t%s%s/*\n\t-->\t%s\n" "$LCARS_HOME" "$MY_BGS" "${work_dir}/${LCARS}/"
 	    sudo cp ${LCARS_HOME}${MY_BGS}/* ${work_dir}/${LCARS}/
             ;;
-            # Enable for Linux Mint above ';;' ^^^^^
-#            ln -sf ${work_dir}/${LCARS}/${LCARS_BG} ${work_dir}${MY_DEFAULT_BG}
 
         theme)
             # Default Install LCARS-GTK-2.0 desktop theme
@@ -240,7 +244,7 @@ _install()
             work_dir=${MY_SHARE}${MY_SOUNDS}
             if [ ! -d "${work_dir}/${LCARS}" ]; then
                 echo "LCARS sounds not installed..."
-                echo "==> Creating: ${workdir}/${LCARS}"
+                echo "==> Creating: ${work_dir}/${LCARS}"
                 _smk_dir ${work_dir}/${LCARS}
                 [ "$?" == 1 ] && exit 1
             fi
@@ -248,6 +252,13 @@ _install()
             sudo cp ${LCARS_HOME}${MY_SOUNDS}/* ${work_dir}/${LCARS}/
             ;;
 
+        icon)
+            # Install LCARS multipurpose icon
+            work_dir=${LCARS_SHARE}
+            echo "Installing multipurpose icon..."
+            echo "==> Copying to: ${work_dir}"
+            sudo cp ${LCARS_HOME}${MY_ICONS}/${LCARS_ICON} ${work_dir}
+            ;;
         conky)
             # Setup and configure Conky for LCARS-GX.
             # Check to see that qiv is installed, else exit.
